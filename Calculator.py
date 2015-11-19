@@ -5,6 +5,7 @@ from GridPositioner import *
 from Stack import *
 from Operation import *
 from StackPanel import *
+#from BasePanel import *
 
 
 # Class for a GUI-based calculator.
@@ -65,7 +66,7 @@ class Calculator( Tk ) :
         #Initialise the operand panel component
         self.__initialiseOperandPanel()
         #Initialise the base-change panel component
-        """self.__initialiseBasePanel(base)"""
+        #self.__initialiseBasePanel(base)
         self.__initialise_stackPanel()
 
     # Initialise the digit panel widget of this @Calculator@.
@@ -92,7 +93,8 @@ class Calculator( Tk ) :
         self.__stackPanel = StackPanel(master=self,width=(Calculator.__IO_PANEL_WIDTH//2),
                             height=Calculator.__IO_PANEL_HEIGHT,
                             stack=self.__stack)
-        self.__stackPanel.grid(row=0, column=4, rowspan=7, sticky="NS")
+        rows = 7#self.__last_row+1
+        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky="NS")
 
     # Utility method for adding additional button to the digit panel.
     #  @text@: the text on the button.
@@ -130,7 +132,6 @@ class Calculator( Tk ) :
         #row in the window, save it for the stack panel
         self.__last_row = (self.__positioner.addedWidgets //
                Calculator.__DIGITS_PER_ROW) + 1
-        
         span = Calculator.__IO_PANEL_SPAN
         base_panel = BasePanel(master=self, base = base, span=span)
 
@@ -146,9 +147,11 @@ class Calculator( Tk ) :
     # Callback method for push button
     def __onPushButtonClick( self ) :
         #push the value of the input field onto the stack
-        self.__stack.push(self.__iopanel.get( ))
-        self.__stackPanel.update()
-        self.__iopanel.reset( )
+        var = self.__iopanel.get( )
+        if var != "":
+            self.__stack.push(var)
+            self.__stackPanel.update()
+            self.__iopanel.reset( )
 
     # Callback method for clear button
     def __onClearButtonClick( self ) :
