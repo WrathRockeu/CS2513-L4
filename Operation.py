@@ -139,18 +139,20 @@ class Operation :
     def __convertFromDecimal(number, new_base) :
         #Converts the integer 'number' in base 10 to the string equivalent
         #in base 'new_base'
-
-        if number < 0 :
-            #Negative numbers will have a - sign in front of them
-            number *= -1
-            sign = '-'
+        if number == 0 :
+            number_string = '0'
         else :
-            sign = ''
-        number_string = ''
-        while number > 0 :
-            number_string = str(number % new_base) + number_string
-            number //= new_base
-        number_string = sign + number_string
+            if number < 0 :
+                #Negative numbers will have a - sign in front of them
+                number *= -1
+                sign = '-'
+            else :
+                sign = ''
+            number_string = ''
+            while number > 0 :
+                number_string = str(number % new_base) + number_string
+                number //= new_base
+            number_string = sign + number_string
         return number_string
 
 def test() :
