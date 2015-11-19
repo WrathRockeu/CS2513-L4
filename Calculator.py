@@ -154,6 +154,7 @@ class Calculator( Tk ) :
     def __clearAll(self):
         #clear the stack
         self.__stack.clear_out()
+        self.__iopanel.set("")
     
 if __name__ == "__main__" :
      calculator = Calculator( None )
