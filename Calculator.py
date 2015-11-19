@@ -125,7 +125,7 @@ class Calculator( Tk ) :
                Calculator.__DIGITS_PER_ROW) + 1
         
         span = Calculator.__IO_PANEL_SPAN
-        base_panel = BasePanel(master=self, span=span)
+        base_panel = BasePanel(master=self, base = base, span=span)
 
         row = self.__last_row
         column = Calculator.__IO_PANEL_COL
