@@ -3,6 +3,9 @@ from tkinter import *
 # Utility class for adding widgets to their master's grid layout.
 class GridPositioner :
 
+    #Sticky placement for widgets
+    __STICKY = "EW"
+
     # Main constructor:
     #  @row@: The row relative to which the widgets get placed.
     #  @col@: The column relative to which the widgets get placed.
@@ -18,11 +21,12 @@ class GridPositioner :
     def add( self, widget ) :
         widgets = self.__addedWidgets
         columns = self.__columns
+        sticky = GridPositioner.__STICKY
         # Determine row and column in target grid layout.
         row = self.__row + widgets // columns
         col = self.__col + widgets %  columns
         # Place the widget
-        widget.grid( row=row, column=col, sticky="EW" )
+        widget.grid( row=row, column=col, sticky=sticky )
         # Adjust number of widgets placed by this object.
         self.__addedWidgets += 1
 

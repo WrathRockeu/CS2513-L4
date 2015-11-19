@@ -15,7 +15,10 @@ class Stack:
 
             #When we add the bottom item of the stack to the string, we don't
             #want to also add a line break, so we always add the 0th item here
-            stack_string += str(self.__list[0])
+            stack_string += str(self.__list[0]) + '\n'
+
+        #Add some decorations to make it look a little nicer
+        stack_string = '^\n' + stack_string + '--'
         return stack_string
 
 
