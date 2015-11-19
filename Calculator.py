@@ -21,7 +21,6 @@ class Calculator( Tk ) :
 
     # The number base of the calculator.
     __BASE = 10
-    #TEST
 
     # The title of this calculator's window.
     __TITLE = "Calculator"
