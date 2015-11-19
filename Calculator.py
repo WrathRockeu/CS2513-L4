@@ -19,7 +19,7 @@ class Calculator( Tk ) :
     # Span of @IOPanel@ in widgets in the grid layout of the calculator.
     __IO_PANEL_SPAN = 3
 
-    # The number base of the calculator.
+    # The default base of the calculator.
     __BASE = 10
 
     # The title of this calculator's window.
@@ -61,8 +61,10 @@ class Calculator( Tk ) :
         self.__initialiseIOPanel( )
         # Initialise the digit panel component.
         self.__initialiseDigitPanel( base=base)
-        """ NEED TO INITIALISZE THE OPERAND PANNEL """
+        #Initialise the operand panel component
         self.__initialiseOperandPanel()
+        #Initialise the base-change panel component
+        self.__initialiseBasePanel(base)
 
     # Initialise the digit panel widget of this @Calculator@.
     #  @base@: the number base of this @Calculator@'s operations.
@@ -107,12 +109,16 @@ class Calculator( Tk ) :
         self.__iopanel = iopanel
 
     def __initialiseOperandPanel( self ):
+        #Add the Operand buttons to the panel
         for operand in Calculator.__OPERANDS:
             if operand == "CE":
                 self.__addSpecialDigitPanelButton(operand,self.__clearAll)
             else:
                 self.__addSpecialDigitPanelButton(operand,
                                                   lambda operand=operand:self.__onOperandButtonClick(operand))
+    def __initialiseBasePanel(self, current_base) :
+        #Create the panel for changing calculator base, put it at the bottom
+        Button(master=self, text="Test").grid(row=1, column=0)
 
     # Callback method for push button
     def __onPushButtonClick( self ) :

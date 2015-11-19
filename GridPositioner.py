@@ -25,3 +25,9 @@ class GridPositioner :
         widget.grid( row=row, column=col, sticky="EW" )
         # Adjust number of widgets placed by this object.
         self.__addedWidgets += 1
+
+    @property
+    def addedWidgets(self) :
+        #Getter for the number of widgets added
+        #Used for the Base panel's row calculation
+        return self.__addedWidgets
