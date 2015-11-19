@@ -118,7 +118,23 @@ class Calculator( Tk ) :
                                                   lambda operand=operand:self.__onOperandButtonClick(operand))
     def __initialiseBasePanel(self, current_base) :
         #Create the panel for changing calculator base, put it at the bottom
-        Button(master=self, text="Test").grid(row=1, column=0)
+
+        #Using the number of widgets added so far, we can calculate the last
+        #row in the window, save it for the stack panel
+        self.__last_row = (self.__positioner.addedWidgets //
+               Calculator.__DIGITS_PER_ROW) + 1
+        
+        span = Calculator.__IO_PANEL_SPAN
+        base_panel = BasePanel(master=self, span=span)
+
+        row = self.__last_row
+        column = Calculator.__IO_PANEL_COL
+        
+        #Add the base panel to the current gric layout
+        base_panel.grid(row = row, column = column, columnspan = span)
+        #Save a reference to the Base Panel for future use
+        self.__base_panel = base_panel
+        
 
     # Callback method for push button
     def __onPushButtonClick( self ) :
