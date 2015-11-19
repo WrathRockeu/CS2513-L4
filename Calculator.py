@@ -4,6 +4,7 @@ from Digit import *
 from GridPositioner import *
 from Stack import *
 from Operation import *
+from StackPanel import *
 
 
 # Class for a GUI-based calculator.
@@ -64,7 +65,8 @@ class Calculator( Tk ) :
         #Initialise the operand panel component
         self.__initialiseOperandPanel()
         #Initialise the base-change panel component
-        self.__initialiseBasePanel(base)
+        """self.__initialiseBasePanel(base)"""
+        self.__initialise_stackPanel()
 
     # Initialise the digit panel widget of this @Calculator@.
     #  @base@: the number base of this @Calculator@'s operations.
@@ -86,6 +88,11 @@ class Calculator( Tk ) :
                                            command=self.__onClearButtonClick )
         self.__addSpecialDigitPanelButton( text=Calculator.__PUSH_TITLE,
                                            command=self.__onPushButtonClick )
+    def __initialise_stackPanel(self):
+        self.__stackPanel = StackPanel(master=self,width=(Calculator.__IO_PANEL_WIDTH//2),
+                            height=Calculator.__IO_PANEL_HEIGHT,
+                            stack=self.__stack)
+        self.__stackPanel.grid(row=0, column=4, rowspan=7, sticky="NS")
 
     # Utility method for adding additional button to the digit panel.
     #  @text@: the text on the button.
@@ -140,6 +147,7 @@ class Calculator( Tk ) :
     def __onPushButtonClick( self ) :
         #push the value of the input field onto the stack
         self.__stack.push(self.__iopanel.get( ))
+        self.__stackPanel.update()
         self.__iopanel.reset( )
 
     # Callback method for clear button
@@ -150,11 +158,13 @@ class Calculator( Tk ) :
     def __onOperandButtonClick(self, operand) :
         #Run the apply function, then display the answer
         self.__iopanel.set(self.__operation.apply(operand,Calculator.__BASE))
+        self.__stackPanel.update()
     
     def __clearAll(self):
         #clear the stack
         self.__stack.clear_out()
         self.__iopanel.set("")
+        self.__stackPanel.update()
     
 if __name__ == "__main__" :
      calculator = Calculator( None )
