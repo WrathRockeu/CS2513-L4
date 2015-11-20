@@ -2,7 +2,7 @@ from tkinter import *
 class StackPanel(PanedWindow):
     #title of the stack field
     __TITLE = "Stack"
-    __STACK_WIDTH = 20
+    __STACK_WIDTH = 21 #1 Additional space for the '-' sign    
     __ANCHOR = "s"
     def __init__(self,master,width,height,stack,title=__TITLE):
         self.__stack = stack
