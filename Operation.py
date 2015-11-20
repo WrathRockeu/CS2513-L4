@@ -35,85 +35,84 @@ class Operation :
 
     def __add(stack, current_base) :
         #Add the top two operands on the stack, and push the new value
+        if stack.length()>1:
+            #These are strings
+            value1 = stack.pop()
+            value2 = stack.pop()
+            #Convert from the current_base to decimal
+            #These are now ints
+            value1 = Operation.__convertToDecimal(value1, current_base)
+            value2 = Operation.__convertToDecimal(value2, current_base)
 
-        #These are strings
-        value1 = stack.pop()
-        value2 = stack.pop()
+            answer = value1 + value2
 
-        #Convert from the current_base to decimal
-        #These are now ints
-        value1 = Operation.__convertToDecimal(value1, current_base)
-        value2 = Operation.__convertToDecimal(value2, current_base)
-
-        answer = value1 + value2
-
-        #Return the answer to the appropriate base
-        #This is a string
-        answer = Operation.__convertFromDecimal(answer, current_base)
-        stack.push(answer)
+            #Return the answer to the appropriate base
+            #This is a string
+            answer = Operation.__convertFromDecimal(answer, current_base)
+            stack.push(answer)
 
     def __subtract(stack, current_base) :
         #Subtract the second item from the top of the stack from the top item
         #and push the answer on the stack
+        if stack.length()>1:
+            #These are strings
+            value2 = stack.pop() #Top item
+            value1 = stack.pop() #Second from the top
 
-        #These are strings
-        value2 = stack.pop() #Top item
-        value1 = stack.pop() #Second from the top
+            #Convert from the current_base to decimal
+            #These are now ints
+            value1 = Operation.__convertToDecimal(value1, current_base)
+            value2 = Operation.__convertToDecimal(value2, current_base)
 
-        #Convert from the current_base to decimal
-        #These are now ints
-        value1 = Operation.__convertToDecimal(value1, current_base)
-        value2 = Operation.__convertToDecimal(value2, current_base)
+                    #Second - top
+            answer = value1 - value2
 
-                #Second - top
-        answer = value1 - value2
-
-        #Return the answer to the appropriate base
-        #This is a string
-        answer = Operation.__convertFromDecimal(answer, current_base)
-        stack.push(answer)
+            #Return the answer to the appropriate base
+            #This is a string
+            answer = Operation.__convertFromDecimal(answer, current_base)
+            stack.push(answer)
 
     def __multiply(stack, current_base) :
         #Multiply the top two items on the stack together, and push the
         #answer onto the stack
+        if stack.length()>1:
+            #These are strings
+            value1 = stack.pop()
+            value2 = stack.pop()
 
-        #These are strings
-        value1 = stack.pop()
-        value2 = stack.pop()
+            #Convert from the current_base to decimal
+            #These are now ints
+            value1 = Operation.__convertToDecimal(value1, current_base)
+            value2 = Operation.__convertToDecimal(value2, current_base)
 
-        #Convert from the current_base to decimal
-        #These are now ints
-        value1 = Operation.__convertToDecimal(value1, current_base)
-        value2 = Operation.__convertToDecimal(value2, current_base)
+            answer = value1 * value2
 
-        answer = value1 * value2
-
-        #Return the answer to the appropriate base
-        #This is a string
-        answer = Operation.__convertFromDecimal(answer, current_base)
-        stack.push(answer)
+            #Return the answer to the appropriate base
+            #This is a string
+            answer = Operation.__convertFromDecimal(answer, current_base)
+            stack.push(answer)
 
     def __divide(stack, current_base) :
         #Divide the second item from the top of the stack by the top item
         #and push the answer on the stack
+        if stack.length()>1:
+            #These are strings
+            value2 = stack.pop() #Top item
+            value1 = stack.pop() #Second from top
 
-        #These are strings
-        value2 = stack.pop() #Top item
-        value1 = stack.pop() #Second from top
+            #Convert from the current_base to decimal
+            #These are now ints
+            value1 = Operation.__convertToDecimal(value1, current_base)
+            value2 = Operation.__convertToDecimal(value2, current_base)
+      
+                    #second // top
+            answer = value1 // value2
 
-        #Convert from the current_base to decimal
-        #These are now ints
-        value1 = Operation.__convertToDecimal(value1, current_base)
-        value2 = Operation.__convertToDecimal(value2, current_base)
-  
-                #second // top
-        answer = value1 // value2
-
-        #Return the answer to the appropriate base
-        #This is a string
-        answer = Operation.__convertFromDecimal(answer, current_base)
-        stack.push(answer)
-        
+            #Return the answer to the appropriate base
+            #This is a string
+            answer = Operation.__convertFromDecimal(answer, current_base)
+            stack.push(answer)
+            
     def __negate(stack, current_base) :
         #Negates the top item of the stack
 
