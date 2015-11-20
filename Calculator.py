@@ -163,7 +163,7 @@ class Calculator( Tk ) :
     #Handle presses of operand buttons
     def __onOperandButtonClick(self, operand) :
         #Run the apply function, then display the answer
-        self.__iopanel.set(self.__operation.apply(operand,Calculator.__BASE))
+        self.__iopanel.set(self.__operation.apply(operand,self.__base))
         self.__stackPanel.update()
 
     def __onChangeButtonClick(self) :
