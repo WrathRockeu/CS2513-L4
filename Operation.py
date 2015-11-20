@@ -4,9 +4,6 @@ from Stack import *
 class Operation :
     #A class for running operations in the calculator
 
-    #A list of all possible operators that can be given to apply()
-    __OPERATORS = ['+', '-', '*', '/', '(-)']
-
     #A list of all of the operation functions, where the index of the
     #function in this list is equal to the index of its operator
     #in the other list
@@ -25,9 +22,10 @@ class Operation :
 
         #Get the index of the operator in the operators list and apply 
         #that indexed function from the functions list
-        operator_index = Operation.__OPERATORS.index(operator)
-        Operation.__OPERATION_FUNCTIONS[operator_index](self.__stack, 
-                                                        current_base)
+        operators = Calculator.OPERATORS
+        operationFunctions = Operation.__OPERATION_FUNCTIONS
+        operatorIndex = operators.index(operator)
+        operationFunctions[operatorIndex](self.__stack, current_base)
 
         #Since all op_functions push the answer onto the stack, we just
         #return the top of the stack

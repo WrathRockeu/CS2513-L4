@@ -40,8 +40,8 @@ class Calculator( Tk ) :
     __PUSH_TITLE  = "P"
     #Sticky for the stack panel
     __STACK_STICKY = 'NS'
-    #Operand strings for the operand buttons
-    __OPERANDS  = ["+","-","*","/","(-)","CE"]
+    #List of all operators
+    OPERATORS = ['+', '-', '*', '/', '±', 'CE']
     
     # Main constructor.
     #  @parent@: The master widget of this @Calculator@ or @None@
@@ -121,8 +121,9 @@ class Calculator( Tk ) :
 
     def __initialiseOperandPanel( self ):
         #Add the Operand buttons to the panel
-        for operand in Calculator.__OPERANDS:
-            if operand == Calculator.__OPERANDS[-1]:
+        operators = Calculator.OPERATORS
+        for operand in operators:
+            if operand == operators[-1]:
                 #Position of the clear everything operand string
                 self.__addSpecialDigitPanelButton(operand,
                                             self.__onClearAllButtonClick)
