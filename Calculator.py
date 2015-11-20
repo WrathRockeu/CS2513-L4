@@ -168,20 +168,6 @@ class Calculator( Tk ) :
         self.__iopanel.set(self.__operation.apply(operand,self.__base))
         self.__stackPanel.update()
 
-    def __onChangeButtonClick(self) :
-        #Handle presses of the change button for the base
-        new_base = self.__basePanel.get()
-        try :
-            new_base = int(new_base)
-            if new_base >= 2 and new_base <= 10 :
-                #Valid base, reset calculator
-                self.destroy()
-                self = Calculator(None, base=new_base)
-            else :
-                self.__basePanel.reset(self.__base)
-        except :
-            self.__basePanel.reset(self.__base)
-
     def changeBase(self, newBase) :
         for widget in self.winfo_children() :
             #Destroy all widgets in self, without destroying self
