@@ -134,7 +134,7 @@ class Operation :
     def __convertToDecimal(number, old_base) :
         #Converts the string 'number' in base 'old_base' into an integer in
         #base 10 
-        return int(number, old_base)
+        return int(str(number), old_base)
 
     def __convertFromDecimal(number, new_base) :
         #Converts the integer 'number' in base 10 to the string equivalent
