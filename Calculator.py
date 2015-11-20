@@ -168,16 +168,25 @@ class Calculator( Tk ) :
 
     def __onChangeButtonClick(self) :
         #Handle presses of the change button for the base
-        new_base = self.__basePanel.getBase()
-        print(new_base)
+        new_base = self.__basePanel.get()
+        try :
+            new_base = int(new_base)
+            if new_base >= 2 and new_base <= 10 :
+                #Valid base, reset calculator
+                self.destroy()
+                self = Calculator(None, base=new_base)
+            else :
+                self.__basePanel.reset()
+        except :
+            self.__basePanel.reset()
+        
     
     def __onClearAllButtonClick(self):
         #clear the stack
         self.__stack.clear_out()
         self.__iopanel.set("")
         self.__stackPanel.update()
-        #So we can clear the input field too
-        self.__onClearButtonClick()
+        self.__iopanel.reset()
     
 if __name__ == "__main__" :
      calculator = Calculator( None )

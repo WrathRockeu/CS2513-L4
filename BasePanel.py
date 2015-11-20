@@ -78,6 +78,6 @@ class BasePanel(PanedWindow) :
         #to the current base
         self.__baseVariable.set(str(base))
 
-    def getBase(self) :
+    def get(self) :
         #Return the base in the entry
         return self.__baseVariable.get()
