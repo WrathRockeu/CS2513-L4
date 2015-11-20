@@ -37,7 +37,11 @@ class Calculator( Tk ) :
     __CLEAR_TITLE = "C"
     # Text on the push button.
     __PUSH_TITLE  = "P"
+    #Sticky for the stack panel
+    __STACK_STICKY = 'NS'
+    #Operand strings for the operand buttons
     __OPERANDS  = ["+","-","*","/","(-)","CE"]
+    
     # Main constructor.
     #  @parent@: The master widget of this @Calculator@ or @None@
     #  @base@: The number base for this @Calculator@.
@@ -50,6 +54,8 @@ class Calculator( Tk ) :
         Tk.__init__( self, master )
         # Set title.
         self.title( title )
+        #Set not resizable
+        self.resizable(0,0)
         # Save @master@. Not used...
         self.__master = master
         # Finish rest of initialisation.
@@ -81,14 +87,15 @@ class Calculator( Tk ) :
                                 digitsPerRow=__DIGITS_PER_ROW ) :
         appendee = self.__iopanel
         self.__base = base
-        self.__positioner = GridPositioner( row=row, col=col, columns=digitsPerRow )
+        self.__positioner = GridPositioner( row=row, col=col,
+                                            columns=digitsPerRow )
         for digit in [ digit for digit in range( 1, base ) ] + [ 0 ] :
             button = Digit( master=self, digit=digit, appendee=appendee )
             self.__positioner.add( button )
         self.__addSpecialDigitPanelButton( text=Calculator.__CLEAR_TITLE,
-                                           command=self.__onClearButtonClick )
+                                        command=self.__onClearButtonClick )
         self.__addSpecialDigitPanelButton( text=Calculator.__PUSH_TITLE,
-                                           command=self.__onPushButtonClick )
+                                        command=self.__onPushButtonClick )
 
     # Utility method for adding additional button to the digit panel.
     #  @text@: the text on the button.
@@ -114,7 +121,8 @@ class Calculator( Tk ) :
     def __initialiseOperandPanel( self ):
         #Add the Operand buttons to the panel
         for operand in Calculator.__OPERANDS:
-            if operand == "CE":
+            if operand == Calculator.__OPERANDS[-1]:
+                #Position of the clear everything operand string
                 self.__addSpecialDigitPanelButton(operand,self.__onClearAllButtonClick)
             else:
                 self.__addSpecialDigitPanelButton(operand,
@@ -147,7 +155,8 @@ class Calculator( Tk ) :
                             height=Calculator.__IO_PANEL_HEIGHT,
                             stack=self.__stack)
         rows = self.__last_row+1
-        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky="NS")
+        sticky = Calculator.__STACK_STICKY
+        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky=sticky)
         self.__stackPanel.update()
 
     # Callback method for push button
