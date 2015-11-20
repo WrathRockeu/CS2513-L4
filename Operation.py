@@ -1,6 +1,7 @@
 import re
 from Stack import *
-
+from Calculator import OPERATORS
+#
 class Operation :
     #A class for running operations in the calculator
 
