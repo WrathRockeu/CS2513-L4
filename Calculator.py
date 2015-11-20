@@ -6,6 +6,8 @@ from Stack import *
 from Operation import *
 from StackPanel import *
 
+#THIS IS HOW YOU GIT
+
 
 # Class for a GUI-based calculator.
 class Calculator( Tk ) :
