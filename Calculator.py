@@ -5,6 +5,7 @@ from GridPositioner import *
 from Stack import *
 from Operation import *
 from StackPanel import *
+from BasePanel import *
 
 #THIS IS HOW YOU GIT
 
@@ -66,9 +67,10 @@ class Calculator( Tk ) :
         self.__initialiseDigitPanel( base=base)
         #Initialise the operand panel component
         self.__initialiseOperandPanel()
-        #Initialise the base-change panel component
-        """self.__initialiseBasePanel(base)"""
-        self.__initialise_stackPanel()
+        #Initialise the base-change widgets
+        self.__initialiseBasePanel(base)
+        #Initialise the stack display panel
+        self.__initialiseStackPanel()
 
     # Initialise the digit panel widget of this @Calculator@.
     #  @base@: the number base of this @Calculator@'s operations.
@@ -90,11 +92,6 @@ class Calculator( Tk ) :
                                            command=self.__onClearButtonClick )
         self.__addSpecialDigitPanelButton( text=Calculator.__PUSH_TITLE,
                                            command=self.__onPushButtonClick )
-    def __initialise_stackPanel(self):
-        self.__stackPanel = StackPanel(master=self,width=(Calculator.__IO_PANEL_WIDTH//2),
-                            height=Calculator.__IO_PANEL_HEIGHT,
-                            stack=self.__stack)
-        self.__stackPanel.grid(row=0, column=4, rowspan=7, sticky="NS")
 
     # Utility method for adding additional button to the digit panel.
     #  @text@: the text on the button.
@@ -125,6 +122,7 @@ class Calculator( Tk ) :
             else:
                 self.__addSpecialDigitPanelButton(operand,
                                                   lambda operand=operand:self.__onOperandButtonClick(operand))
+                
     def __initialiseBasePanel(self, current_base) :
         #Create the panel for changing calculator base, put it at the bottom
 
@@ -132,25 +130,34 @@ class Calculator( Tk ) :
         #row in the window, save it for the stack panel
         self.__last_row = (self.__positioner.addedWidgets //
                Calculator.__DIGITS_PER_ROW) + 1
-        
         span = Calculator.__IO_PANEL_SPAN
-        base_panel = BasePanel(master=self, base = base, span=span)
-
+        width = Calculator.__IO_PANEL_WIDTH
+        basePanel = BasePanel(master=self, base=current_base, width=width)
+        basePanel.changeButton.config(command=self.__onChangeButtonClick)
         row = self.__last_row
         column = Calculator.__IO_PANEL_COL
         
         #Add the base panel to the current gric layout
-        base_panel.grid(row = row, column = column, columnspan = span)
+        basePanel.grid(row = row, column = column, columnspan = span)
         #Save a reference to the Base Panel for future use
-        self.__base_panel = base_panel
-        
+        self.__basePanel = basePanel
+
+    def __initialiseStackPanel(self):
+        self.__stackPanel = StackPanel(master=self,width=(Calculator.__IO_PANEL_WIDTH//2),
+                            height=Calculator.__IO_PANEL_HEIGHT,
+                            stack=self.__stack)
+        rows = self.__last_row+1
+        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky="NS")
+        self.__stackPanel.update()
 
     # Callback method for push button
     def __onPushButtonClick( self ) :
         #push the value of the input field onto the stack
-        self.__stack.push(self.__iopanel.get( ))
-        self.__stackPanel.update()
-        self.__iopanel.reset( )
+        var = self.__iopanel.get( )
+        if var != "":
+            self.__stack.push(var)
+            self.__stackPanel.update()
+            self.__iopanel.reset( )
 
     # Callback method for clear button
     def __onClearButtonClick( self ) :
@@ -161,6 +168,11 @@ class Calculator( Tk ) :
         #Run the apply function, then display the answer
         self.__iopanel.set(self.__operation.apply(operand,Calculator.__BASE))
         self.__stackPanel.update()
+
+    def __onChangeButtonClick(self) :
+        #Handle presses of the change button for the base
+        new_base = self.__basePanel.getBase()
+        print(new_base)
     
     def __clearAll(self):
         #clear the stack

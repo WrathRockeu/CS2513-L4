@@ -21,4 +21,3 @@ class StackPanel(PanedWindow):
        
     def update(self):
         self.__var.set(str(self.__stack))
-    

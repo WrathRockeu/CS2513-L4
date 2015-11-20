@@ -1,39 +1,54 @@
 from tkinter import *
+from GridPositioner import *
 
 class BasePanel(PanedWindow) :
     #Utility class for displaying and changing the current base of the
     #calculator
     
-    #Number of widgets in this panel
-    __WIDGETS = 2
     #Row to use for the widgets
     __WIDGET_ROW = 0
-    #Column for the Entry widget (button is placed relative to span of
-    #panel)
-    __ENTRY_COLUMN = 0
+    #Column to use for the widgets
+    __WIDGET_COLUMN = 0
+    #Columns per row
+    __WIDGETS_PER_ROW = 3
     #Anchor for the text entry
     __ANCHOR = RIGHT
+    #Text for the information label
+    __LABEL_TEXT = "Base :"
     #Text for the button
-    __TEXT = "Change"
-    #Sticky for each widget
-    __STICKY = "EW"
+    __BUTTON_TEXT = "Change"
+    #Size (in chars) for entry
+    __ENTRY_WIDTH = 2
     
-    def __init__(self, master, base, span) :
+    def __init__(self, master, base, width) :
         #Initialise the BasePanel with the 'master' window, the 'base' of
-        #the calculator, and the 'span' of how wide we can make it
+        #the calculator, and the 'width' of the window
+
+        #Create a positioner to position the widgets
+        row = BasePanel.__WIDGET_ROW
+        col = BasePanel.__WIDGET_COLUMN
+        cols = BasePanel.__WIDGETS_PER_ROW
+        self.__positioner = GridPositioner(row=row, col=col, columns=cols)
+        self.__width = width
 
         #Create the paned window to store our widgets in
-        PanedWindow.__init__(self, master=master, orient=VERTICAL)
+        PanedWindow.__init__(self, master=master, orient=VERTICAL, width=width)
+        #Create a Label for information
+        self.__initialiseBaseLabel()
         #Create the base input field
-        self.__initialiseBaseField(base, span)
+        self.__initialiseBaseEntry(base)
         #Create the apply button
-        self.__initialiseApplyButton(span)
-        self.pack()
+        self.__initialiseApplyButton()
         
+    def __initialiseBaseLabel(self) :
+        #Create a label to inform what this panel is for
+        text = BasePanel._BasePanel__LABEL_TEXT
+        info = Label(master=self, text=text)
+        self.__positioner.add(info)
 
-    def __initialiseBaseField(self, base, span) :
-        #Initialise the base input field, with width 1 less than 'span'
-        #and the current 'base' already in the field
+    def __initialiseBaseEntry(self, base) :
+        #Initialise the base entry, with the current 'base'
+        #already in the box
 
         #Create string variable to store the base
         self.__baseVariable = StringVar()
@@ -42,38 +57,27 @@ class BasePanel(PanedWindow) :
 
         textvar = self.__baseVariable
         anchor = BasePanel.__ANCHOR
+        width = BasePanel.__ENTRY_WIDTH
         #Create the textbox to display/change the base
-        self.__baseEntry = Entry(master = self, textvariable =
-                                 textvar, justify=anchor)
+        baseEntry = Entry(master=self, textvariable=textvar,
+                                 justify=anchor, width=width)
 
-        #Add the Entry to the panel
-        row = BasePanel.__WIDGET_ROW
-        column = BasePanel.__ENTRY_COLUMN
-        sticky = BasePanel.__STICKY        
-        #Span is span for panel, we want this entry to
-        #take up the remaining space if the button takes 1 column
-        if span == 1 :
-            #We need to put the button underneath the Entry as there is
-            #only 1 widget per row
-            columnspan = span
-            BasePanel.__WIDGET_ROW += 1 #For the button
-        else :
-            columnspan = span - 1
-            
-        self.__baseEntry.grid(row=row, column=column,
-                              columnspan=columnspan, sticky=sticky)
+        #Add the Entry to the panel       
+        self.__positioner.add(baseEntry)
 
-    def __initialiseApplyButton(self, span) :
-        applyButton = Button(master=self, text=BasePanel.__TEXT,
-                             command=self.__onApplyButtonClick)
-        row = BasePanel.__WIDGET_ROW
-        column = span - 1
-        sticky = BasePanel.__STICKY
-        applyButton.grid(row=row, column=column, sticky=sticky)
+    def __initialiseApplyButton(self) :
+        text = BasePanel.__BUTTON_TEXT
+        changeButton = Button(master=self, text=text)
+        #This is currently public as the Calculator class gives it its
+        #command
+        self.changeButton = changeButton
+        self.__positioner.add(changeButton)
 
-    def __onApplyButtonClick(self) :
-        pass
+    def reset(self, base) :
+        #In case of someone inputting an invalid base, set the display back
+        #to the current base
+        self.__baseVariable.set(str(base))
 
-win = Tk()
-bp = BasePanel(win, 10, 3)
-win.mainloop()
+    def getBase(self) :
+        #Return the base in the entry
+        return self.__baseVariable.get()
