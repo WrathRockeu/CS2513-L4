@@ -127,6 +127,9 @@ class Calculator( Tk ) :
         #row in the window, save it for the stack panel
         self.__last_row = (self.__positioner.addedWidgets //
                Calculator.__DIGITS_PER_ROW) + 1
+        if self.__positioner.addedWidgets % Calculator.__DIGITS_PER_ROW > 0 :
+            #We need to add 1 to the last row because there is an incomplete row
+            self.__last_row += 1
         span = Calculator.__IO_PANEL_SPAN
         width = Calculator.__IO_PANEL_WIDTH
         basePanel = BasePanel(master=self, base=current_base, width=width)
