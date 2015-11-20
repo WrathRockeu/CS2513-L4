@@ -5,7 +5,6 @@ from GridPositioner import *
 from Stack import *
 from Operation import *
 from StackPanel import *
-from BasePanel import *
 from BaseMenu import *
 from math import ceil
 
