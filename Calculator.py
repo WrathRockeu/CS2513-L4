@@ -188,9 +188,9 @@ class Calculator( Tk ) :
                 self.destroy()
                 self = Calculator(None, base=new_base)
             else :
-                self.__basePanel.reset()
+                self.__basePanel.reset(self.__base)
         except :
-            self.__basePanel.reset()
+            self.__basePanel.reset(self.__base)
         
     
     def __onClearAllButtonClick(self):
