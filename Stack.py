@@ -40,7 +40,7 @@ class Stack:
         #Return the number of elements on the stack.
         return len(self.__list)
 
-    def clear_out(self):
+    def clear(self):
         #clear the stack
         self.__list = []
 

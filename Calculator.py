@@ -6,6 +6,8 @@ from Stack import *
 from Operation import *
 from StackPanel import *
 from BasePanel import *
+from BaseMenu import *
+from math import ceil
 
 # Class for a GUI-based calculator.
 class Calculator( Tk ) :
@@ -71,7 +73,7 @@ class Calculator( Tk ) :
         #Initialise the operand panel component
         self.__initialiseOperandPanel()
         #Initialise the base-change widgets
-        self.__initialiseBasePanel(base)
+        self.__initialiseBaseMenu(base)
         #Initialise the stack display panel
         self.__initialiseStackPanel()
 
@@ -128,33 +130,18 @@ class Calculator( Tk ) :
                 self.__addSpecialDigitPanelButton(operand,
                                                   lambda operand=operand:self.__onOperandButtonClick(operand))
                 
-    def __initialiseBasePanel(self, current_base) :
+    def __initialiseBaseMenu(self, base) :
         #Create the panel for changing calculator base, put it at the bottom
-
-        #Using the number of widgets added so far, we can calculate the last
-        #row in the window, save it for the stack panel
-        self.__last_row = (self.__positioner.addedWidgets //
-               Calculator.__DIGITS_PER_ROW) + 1
-        if self.__positioner.addedWidgets % Calculator.__DIGITS_PER_ROW > 0 :
-            #We need to add 1 to the last row because there is an incomplete row
-            self.__last_row += 1
-        span = Calculator.__IO_PANEL_SPAN
-        width = Calculator.__IO_PANEL_WIDTH
-        basePanel = BasePanel(master=self, base=current_base, width=width)
-        basePanel.changeButton.config(command=self.__onChangeButtonClick)
-        row = self.__last_row
-        column = Calculator.__IO_PANEL_COL
-        
-        #Add the base panel to the current gric layout
-        basePanel.grid(row = row, column = column, columnspan = span)
-        #Save a reference to the Base Panel for future use
-        self.__basePanel = basePanel
+        baseMenu = BaseMenu(self, base)
+        self.config(menu=baseMenu)
 
     def __initialiseStackPanel(self):
         self.__stackPanel = StackPanel(master=self,width=(Calculator.__IO_PANEL_WIDTH//2),
                             height=Calculator.__IO_PANEL_HEIGHT,
                             stack=self.__stack)
-        rows = self.__last_row+1
+        #This gets the last row used in the window
+        rows = ceil(self.__positioner.addedWidgets /
+               Calculator.__DIGITS_PER_ROW) + 1
         sticky = Calculator.__STACK_STICKY
         self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky=sticky)
         self.__stackPanel.update()
@@ -174,6 +161,9 @@ class Calculator( Tk ) :
 
     #Handle presses of operand buttons
     def __onOperandButtonClick(self, operand) :
+        #Handle the clicking of operand buttons
+        #Push any input in the field onto the stack, if any
+        self.__onPushButtonClick()
         #Run the apply function, then display the answer
         self.__iopanel.set(self.__operation.apply(operand,self.__base))
         self.__stackPanel.update()
@@ -191,11 +181,17 @@ class Calculator( Tk ) :
                 self.__basePanel.reset(self.__base)
         except :
             self.__basePanel.reset(self.__base)
-        
+
+    def changeBase(self, newBase) :
+        for widget in self.winfo_children() :
+            #Destroy all widgets in self, without destroying self
+            widget.destroy()
+        self.__stack.clear()
+        self.__initialise(newBase)
     
     def __onClearAllButtonClick(self):
         #clear the stack
-        self.__stack.clear_out()
+        self.__stack.clear()
         self.__iopanel.set("")
         self.__stackPanel.update()
         self.__iopanel.reset()
