@@ -96,22 +96,29 @@ class Operation :
         #Divide the second item from the top of the stack by the top item
         #and push the answer on the stack
         if stack.length()>1:
+            #We want to ensure we don't try to divide by 0
+            if stack.top() != '0' :
             #These are strings
-            value2 = stack.pop() #Top item
-            value1 = stack.pop() #Second from top
+                value2 = stack.pop() #Top item
+                value1 = stack.pop() #Second from top
 
-            #Convert from the current_base to decimal
-            #These are now ints
-            value1 = Operation.__convertToDecimal(value1, current_base)
-            value2 = Operation.__convertToDecimal(value2, current_base)
-      
-                    #second // top
-            answer = value1 // value2
+                #Convert from the current_base to decimal
+                #These are now ints
+                value1 = Operation.__convertToDecimal(value1, current_base)
+                value2 = Operation.__convertToDecimal(value2, current_base)
+          
+                        #second // top
+                answer = value1 // value2
 
-            #Return the answer to the appropriate base
-            #This is a string
-            answer = Operation.__convertFromDecimal(answer, current_base)
-            stack.push(answer)
+                #Return the answer to the appropriate base
+                #This is a string
+                answer = Operation.__convertFromDecimal(answer, current_base)
+                stack.push(answer)
+            else :
+                #If we try to divide by 0, we want to display the error in the
+                #output field
+                stack.pop()
+                stack.push('ZeroDivisionError')
             
     def __negate(stack, current_base) :
         #Negates the top item of the stack

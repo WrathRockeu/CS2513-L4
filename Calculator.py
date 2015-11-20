@@ -124,10 +124,11 @@ class Calculator( Tk ) :
         for operand in Calculator.__OPERANDS:
             if operand == Calculator.__OPERANDS[-1]:
                 #Position of the clear everything operand string
-                self.__addSpecialDigitPanelButton(operand,self.__onClearAllButtonClick)
+                self.__addSpecialDigitPanelButton(operand,
+                                            self.__onClearAllButtonClick)
             else:
                 self.__addSpecialDigitPanelButton(operand,
-                                                  lambda operand=operand:self.__onOperandButtonClick(operand))
+                lambda operand=operand:self.__onOperandButtonClick(operand))
                 
     def __initialiseBaseMenu(self, base) :
         #Create the panel for changing calculator base, put it at the bottom
@@ -135,9 +136,10 @@ class Calculator( Tk ) :
         self.config(menu=baseMenu)
 
     def __initialiseStackPanel(self):
-        self.__stackPanel = StackPanel(master=self,width=(Calculator.__IO_PANEL_WIDTH//2),
-                            height=Calculator.__IO_PANEL_HEIGHT,
-                            stack=self.__stack)
+        height = Calculator.__IO_PANEL_HEIGHT
+        width = Calculator.__IO_PANEL_WIDTH
+        self.__stackPanel = StackPanel(master=self,height=height,width=width,
+                                       stack=self.__stack)
         #This gets the last row used in the window
         rows = ceil(self.__positioner.addedWidgets /
                Calculator.__DIGITS_PER_ROW) + 1
@@ -147,6 +149,9 @@ class Calculator( Tk ) :
 
     # Callback method for push button
     def __onPushButtonClick( self ) :
+        self.__pushInput()
+
+    def __pushInput(self) :
         #push the value of the input field onto the stack
         var = self.__iopanel.get( )
         if var != "":
@@ -162,9 +167,13 @@ class Calculator( Tk ) :
     def __onOperandButtonClick(self, operand) :
         #Handle the clicking of operand buttons
         #Push any input in the field onto the stack, if any
-        self.__onPushButtonClick()
+        self.__pushInput()
         #Run the apply function, then display the answer
-        self.__iopanel.set(self.__operation.apply(operand,self.__base))
+        answer = self.__operation.apply(operand,self.__base)
+        self.__iopanel.set(answer)
+        if 'Error' in self.__stack.top() :
+            #If the last operation gave us an error, we want to remove it from the stack
+            self.__stack.pop()
         self.__stackPanel.update()
 
     def changeBase(self, newBase) :
