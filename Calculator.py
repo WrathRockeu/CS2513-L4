@@ -7,7 +7,7 @@ from Operation import *
 from StackPanel import *
 from BasePanel import *
 
-
+#
 # Class for a GUI-based calculator.
 class Calculator( Tk ) :
     # Width of @IOPanel@ in pixels.
