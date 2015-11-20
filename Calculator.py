@@ -7,7 +7,6 @@ from Operation import *
 from StackPanel import *
 from BasePanel import *
 
-#
 # Class for a GUI-based calculator.
 class Calculator( Tk ) :
     # Width of @IOPanel@ in pixels.
@@ -116,7 +115,7 @@ class Calculator( Tk ) :
         #Add the Operand buttons to the panel
         for operand in Calculator.__OPERANDS:
             if operand == "CE":
-                self.__addSpecialDigitPanelButton(operand,self.__clearAll)
+                self.__addSpecialDigitPanelButton(operand,self.__onClearAllButtonClick)
             else:
                 self.__addSpecialDigitPanelButton(operand,
                                                   lambda operand=operand:self.__onOperandButtonClick(operand))
@@ -172,11 +171,13 @@ class Calculator( Tk ) :
         new_base = self.__basePanel.getBase()
         print(new_base)
     
-    def __clearAll(self):
+    def __onClearAllButtonClick(self):
         #clear the stack
         self.__stack.clear_out()
         self.__iopanel.set("")
         self.__stackPanel.update()
+        #So we can clear the input field too
+        self.__onClearButtonClick()
     
 if __name__ == "__main__" :
      calculator = Calculator( None )

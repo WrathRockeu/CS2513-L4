@@ -2,7 +2,7 @@ from tkinter import *
 class StackPanel(PanedWindow):
     #title of the stack field
     __TITLE = "Stack"
-    __STACK_WIDTH = 10
+    __STACK_WIDTH = 20
     __ANCHOR = "s"
     def __init__(self,master,width,height,stack,title=__TITLE):
         self.__stack = stack
@@ -14,7 +14,7 @@ class StackPanel(PanedWindow):
         self.add(frame)
         var = StringVar()
         var.set("")
-        label = Label(frame,width=StackPanel.__STACK_WIDTH,
+        label = Label(frame, width=StackPanel.__STACK_WIDTH,
                       textvariable=var,anchor=StackPanel.__ANCHOR)
         label.pack(fill=BOTH,expand=True)
         return var

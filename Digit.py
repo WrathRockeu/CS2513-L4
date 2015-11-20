@@ -23,4 +23,6 @@ class Digit( Button ) :
     # is clicked.
     def __onButtonClick( self ) :
        # Append current button's digit to output field of @self.__appendee@.
-       self.__appendee.append( str( self.__digit ) )
+       #IFF there is less than 20 digits in the box already
+       if len(self.__appendee.get()) < 20 :
+           self.__appendee.append( str( self.__digit ) )
