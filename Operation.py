@@ -23,7 +23,7 @@ class Operation :
 
         #Get the index of the operator in the operators list and apply 
         #that indexed function from the functions list
-        operators = Calculator.OPERATORS
+        operators = OPERATORS
         operationFunctions = Operation.__OPERATION_FUNCTIONS
         operatorIndex = operators.index(operator)
         operationFunctions[operatorIndex](self.__stack, current_base)
@@ -159,38 +159,3 @@ class Operation :
                 number //= new_base
             number_string = sign + number_string
         return number_string
-
-def test() :
-    base = 10
-    binary_ops = ['+', '-', '*', '/']
-    stack = Stack()
-    operation = Operation(stack)
-    loop = True
-    while loop :
-        value = input('Input a value (ops are +, -, *, /, *-1) >>> ')
-
-        try :
-            int(value)
-            stack.push(value)
-
-        except :
-            if value.lower() == 'q' :
-                loop = False
-
-            elif value in binary_ops :
-                if stack.length() < 2 :
-                    print('Not enough operands on the stack')
-                else :
-                    operation.apply(value, base)
-                    print(stack.top())
-
-            elif value == '*-1' :
-                if stack.length() < 1 :
-                    print('Not enough operands on the stack')
-                else :
-                    operation.apply(value, base)
-                    print(stack.top())
-            else :
-                print('Invalid input')
-        print(stack)
-#test()
