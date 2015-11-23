@@ -162,3 +162,12 @@ class Operation :
                 number //= new_base
             number_string = sign + number_string
         return number_string
+
+    def convertStack(self,stack,newBase,oldBase):
+        revStack = Stack()
+        while stack.length() != 0:
+            revStack.push(stack.pop())
+        while revStack.length() != 0:
+            stack.push(Operation.__convertFromDecimal(
+                Operation.__convertToDecimal(revStack.pop(),oldBase),newBase))
+        

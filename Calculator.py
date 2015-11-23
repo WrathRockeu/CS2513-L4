@@ -9,6 +9,7 @@ from BaseMenu import *
 from HelpMenu import *
 from math import ceil
 from ProgramConstants import OPERATORS
+from OptionMenu import *
 
 # Class for a GUI-based calculator.
 class Calculator( Tk ) :
@@ -56,6 +57,8 @@ class Calculator( Tk ) :
     #  @parent@: The master widget of this @Calculator@ or @None@
     #  @base@: The number base for this @Calculator@.
     def __init__( self, master, title=__TITLE, base=__BASE ) :
+        """Not sure I it can be here but I need it"""
+        self.__base = base
         #INITIALIZE THE STACK
         self.__stack = Stack()
         #Initialise the Operation class
@@ -85,6 +88,7 @@ class Calculator( Tk ) :
         self.__initialiseBaseMenu(base)
         #Initialise the stack display panel
         self.__initialiseStackPanel()
+        self.__initialiseOptionsMenu()
         self.__initialiseHelpMenu()
 
     # Initialise the digit panel widget of this @Calculator@.
@@ -155,6 +159,11 @@ class Calculator( Tk ) :
         label = Calculator.__BASE_MENU_TITLE
         self.__menu.add_cascade(label=label, menu=baseDropDown)
 
+    def __initialiseOptionsMenu(self):
+        self.__optionsDropDown = OptionMenu(self)
+        label = "Options"
+        self.__menu.add_cascade(label=label, menu=self.__optionsDropDown)    
+
     def __initialiseHelpMenu(self):
         #Initialises the panel for giving help options. ie. instructions
         helpMenu = HelpMenu(self)
@@ -210,7 +219,8 @@ class Calculator( Tk ) :
     def changeBase(self, newBase) :
         #Changes between the given bases
         self.__removeAllChildren()
-        self.__stack.clear()
+        self.__stack.clear() if self.__optionsDropDown.CS.get() else self.__operation.convertStack(
+            self.__stack,newBase,self.__base)
         self.__initialise(newBase)
 
     def __removeAllChildren(self) :
