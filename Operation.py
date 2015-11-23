@@ -1,7 +1,5 @@
-import re
 from Stack import *
-from Calculator import OPERATORS
-#
+
 class Operation :
     #A class for running operations in the calculator
 
@@ -11,12 +9,13 @@ class Operation :
     #THe functions will be added in the __init__
     __OPERATION_FUNCTIONS = []
 
+    #Length of stack required for Binary Operations
+    __BINARY_LENGTH = 2
+
     def __init__(self, stack) :
         #Initialise the operation class with access to the stack
         self.__stack = stack
-        Operation.__OPERATION_FUNCTIONS = [Operation.__add,
-        Operation.__subtract, Operation.__multiply, Operation.__divide,
-        Operation.__negate]
+        Operation.__OPERATION_FUNCTIONS = []
 
     def apply(self, operator, current_base) :
         #Applies the 'operator' to the appropriate values on the stack
@@ -34,7 +33,7 @@ class Operation :
 
     def __add(stack, current_base) :
         #Add the top two operands on the stack, and push the new value
-        if stack.length()>1:
+        if stack.length() >= Operation.__BINARY_LENGTH :
             #These are strings
             value1 = stack.pop()
             value2 = stack.pop()
@@ -53,7 +52,7 @@ class Operation :
     def __subtract(stack, current_base) :
         #Subtract the second item from the top of the stack from the top item
         #and push the answer on the stack
-        if stack.length()>1:
+        if stack.length() >= Operation.__BINARY_LENGTH :
             #These are strings
             value2 = stack.pop() #Top item
             value1 = stack.pop() #Second from the top
@@ -74,7 +73,7 @@ class Operation :
     def __multiply(stack, current_base) :
         #Multiply the top two items on the stack together, and push the
         #answer onto the stack
-        if stack.length()>1:
+        if stack.length() >= Operation.__BINARY_LENGTH :
             #These are strings
             value1 = stack.pop()
             value2 = stack.pop()
@@ -94,7 +93,7 @@ class Operation :
     def __divide(stack, current_base) :
         #Divide the second item from the top of the stack by the top item
         #and push the answer on the stack
-        if stack.length()>1:
+        if stack.length() >= Operation.__BINARY_LENGTH :
             #We want to ensure we don't try to divide by 0
             if stack.top() != '0' :
             #These are strings
@@ -121,6 +120,7 @@ class Operation :
             
     def __negate(stack, current_base) :
         #Negates the top item of the stack
+        #Check if the stack has at least one item on it
         if stack.top() != None :
             #String value of the top of the stack
             value = stack.pop()

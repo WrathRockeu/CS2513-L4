@@ -1,5 +1,10 @@
 class Stack:
     #A standard Stack class
+
+    #Representative string for the top of stack
+    __STACK_TOP = '^\n'
+    #Representative string for the bottom of the stack
+    __STACK_BOTTOM = '--'
     
     def __init__(self):
         #Initialise the Stack as an empty list
@@ -18,7 +23,9 @@ class Stack:
             stack_string += str(self.__list[0]) + '\n'
 
         #Add some decorations to make it look a little nicer
-        stack_string = '^\n' + stack_string + '--'
+        top = Stack.__STACK_TOP
+        bottom = Stack.__STACK_BOTTOM
+        stack_string = top + stack_string + bottom
         return stack_string
 
 
