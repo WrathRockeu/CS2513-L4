@@ -15,11 +15,13 @@ class HelpMenu(Menu):
 
     
     def __init__(self,master):
+        #Create the 'Help' drop down menu.
         Menu.__init__(self,master=master)
         self.config(tearoff=0)
-        self.__addCommands()
+        self.__addButtons()
 
-    def __addCommands(self):
+    def __addButtons(self):
+        #Creates the buttons used for the drop down menu.
         instructionsLabel = HelpMenu.__INSTRUCTIONS_LABEL
         aboutLabel = HelpMenu.__ABOUT_LABEL
         self.add_command(label=instructionsLabel,command=self.__instructions)
@@ -66,5 +68,6 @@ class HelpMenu(Menu):
         button.pack()
 
     def __getText(self,filename):
+        #Opens the file 'filename' and converts it to a string.
         filehandle = open(filename,"r")
         return filehandle.read()
