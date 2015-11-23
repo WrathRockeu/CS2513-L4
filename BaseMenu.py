@@ -10,9 +10,9 @@ class BaseMenu(Menu) :
 
     def __init__(self, master, currentBase) :
         #Constructor of a menu with radiobuttons to select the new base
-        #'current_base''s radiobutton will already be selected
+        #'current_base''s button will already be selected
         Menu.__init__(self, master=master)
-        basesDropDown = Menu(self, tearoff=0)
+        self.config(tearoff=0)
 
         #Save the current base of the calculator
         self.__currentBase = currentBase
@@ -24,7 +24,7 @@ class BaseMenu(Menu) :
         for base in range(minBase, maxBase + 1) :
             state = DISABLED if base == currentBase else ACTIVE
             command = lambda base=base : self.__master.changeBase(base)
-            basesDropDown.add_command(label="Base %i" %(base),
+            self.add_command(label="Base %i" %(base),
                                           command=command, state=state)
-        self.add_cascade(label="Choose Base", menu=basesDropDown)
+        #self.add_cascade(label="Choose Base", menu=basesDropDown)
         

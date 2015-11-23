@@ -72,7 +72,7 @@ class Calculator( Tk ) :
         self.__initialiseDigitPanel( base=base)
         #Initialise the operand panel component
         self.__initialiseOperandPanel()
-        self.__initialiseTopBar()
+        self.__initialiseMenu()
         #Initialise the base-change widgets
         self.__initialiseBaseMenu(base)
         #Initialise the stack display panel
@@ -134,16 +134,17 @@ class Calculator( Tk ) :
                 self.__addSpecialDigitPanelButton(operand,
                 lambda operand=operand:self.__onOperandButtonClick(operand))
                 
-    def __initialiseTopBar(self):
-        self.topMenu = Menu(self)
-        self.config(menu=self.topMenu)
+    def __initialiseMenu(self):
+        self.__menu = Menu(self)
+        self.config(menu=self.__menu)
         
     def __initialiseBaseMenu(self, base) :
         #Create the panel for changing calculator base, put it at the bottom
-        baseMenu = BaseMenu(self.topMenu, base)
+        baseDropDown = BaseMenu(self, base)
+        self.__menu.add_cascade(label="Choose Base", menu=baseDropDown)
 
     def __initialiseHelpMenu(self):
-        helpMenu = HelpMenu(self.topMenu)
+        helpMenu = HelpMenu(self)
 
     def __initialiseStackPanel(self):
         height = Calculator.__IO_PANEL_HEIGHT
