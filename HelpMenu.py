@@ -12,19 +12,21 @@ class HelpMenu(Menu):
         self.add_command(label="About",command=self.__Info)
 
     def __Ins(self):
-        self.info = Toplevel()
-        self.info.title("Instructions")
-        msg = Message(self.info,text=self.__openfile(HelpMenu.__INSTR_FILE))
+        self.__info = Tk()
+        self.__info.resizable(0,0)
+        self.__info.title("Instructions")
+        msg = Message(self.__info,text=self.__openfile(HelpMenu.__INSTR_FILE))
         msg.pack()
-        button = Button(self.info,text="Back",command=self.info.destroy)
+        button = Button(self.__info,text="Back",command=self.__info.destroy)
         button.pack()
 
     def __Info(self):
-        self.about = Toplevel()
-        self.about.title("About")
-        msg = Message(self.about,text=self.__openfile(HelpMenu.__ABOUT_FILE))
+        self.__about = Tk()
+        self.__about.resizable(0,0)
+        self.__about.title("About")
+        msg = Message(self.__about,text=self.__openfile(HelpMenu.__ABOUT_FILE))
         msg.pack()
-        button = Button(self.about,text="Back",command=self.about.destroy)
+        button = Button(self.__about,text="Back",command=self.__about.destroy)
         button.pack()
 
     def __openfile(self,filename):
