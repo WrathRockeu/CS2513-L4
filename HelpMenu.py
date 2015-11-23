@@ -2,7 +2,7 @@ from tkinter import *
 class HelpMenu(Menu):
 
     def __init__(self,master):
-        Menu.__init(self,master=master)
+        Menu.__init__(self,master=master)
         self.__helpDropDown = Menu(self,tearoff=0)
         self.__AddCommands()
 

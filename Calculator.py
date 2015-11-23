@@ -6,6 +6,7 @@ from Stack import *
 from Operation import *
 from StackPanel import *
 from BaseMenu import *
+from HelpMenu import *
 from math import ceil
 from ProgramConstants import OPERATORS
 
@@ -134,7 +135,7 @@ class Calculator( Tk ) :
                 lambda operand=operand:self.__onOperandButtonClick(operand))
                 
     def __initialiseTopBar(self):
-        self.topMenu = Menu.__init__(self)
+        self.topMenu = Menu(self)
         self.config(menu=self.topMenu)
         
     def __initialiseBaseMenu(self, base) :
