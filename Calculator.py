@@ -149,7 +149,8 @@ class Calculator( Tk ) :
         self.config(menu=self.__menu)
         
     def __initialiseBaseMenu(self, base) :
-        #Create the panel for changing calculator base, put it at the bottom
+        #Create the dropdown for selecting the base and add it to the
+        #menu
         baseDropDown = BaseMenu(self, base)
         label = Calculator.__BASE_MENU_TITLE
         self.__menu.add_cascade(label=label, menu=baseDropDown)
