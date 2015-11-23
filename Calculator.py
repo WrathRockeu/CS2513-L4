@@ -7,6 +7,7 @@ from Operation import *
 from StackPanel import *
 from BaseMenu import *
 from math import ceil
+from ProgramConstants import OPERATORS
 
 # Class for a GUI-based calculator.
 class Calculator( Tk ) :
@@ -40,8 +41,7 @@ class Calculator( Tk ) :
     __PUSH_TITLE  = "P"
     #Sticky for the stack panel
     __STACK_STICKY = 'NS'
-    #List of all operators
-    OPERATORS = ['+', '-', '*', '/', '±', 'CE']
+    
     
     # Main constructor.
     #  @parent@: The master widget of this @Calculator@ or @None@
@@ -121,7 +121,7 @@ class Calculator( Tk ) :
 
     def __initialiseOperandPanel( self ):
         #Add the Operand buttons to the panel
-        operators = Calculator.OPERATORS
+        operators = OPERATORS
         for operand in operators:
             if operand == operators[-1]:
                 #Position of the clear everything operand string
@@ -171,10 +171,12 @@ class Calculator( Tk ) :
         self.__pushInput()
         #Run the apply function, then display the answer
         answer = self.__operation.apply(operand,self.__base)
-        self.__iopanel.set(answer)
-        if 'Error' in self.__stack.top() :
-            #If the last operation gave us an error, we want to remove it from the stack
-            self.__stack.pop()
+        if answer != None :
+            #We don't want to display None in the output field
+            self.__iopanel.set(answer)
+            if 'Error' in answer :
+                #If the last operation gave us an error, we want to remove it from the stack
+                self.__stack.pop()
         self.__stackPanel.update()
 
     def changeBase(self, newBase) :

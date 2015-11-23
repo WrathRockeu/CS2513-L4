@@ -25,8 +25,10 @@ class Stack:
     def pop(self):
         #Remove and return the top element of the stack.
         if len(self.__list) == 0:
-            return None
-        return self.__list.pop()
+            element = None
+        else :
+            element = self.__list.pop()
+        return element
 
     def push(self, element):
         #Place element onto the top of the stack.
@@ -34,7 +36,11 @@ class Stack:
 
     def top(self) :
         #Return the top element of the stack without removing it
-        return self.__list[-1]
+        if self.length() > 0 :
+            answer = self.__list[-1]
+        else :
+            answer = None
+        return answer
 
     def length(self):
         #Return the number of elements on the stack.
@@ -43,9 +49,3 @@ class Stack:
     def clear(self):
         #clear the stack
         self.__list = []
-
-    def test() :
-        stack = Stack()
-        for i in range(2,6) :
-            stack.push(i)
-        print(stack)
