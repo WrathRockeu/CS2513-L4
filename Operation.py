@@ -121,20 +121,20 @@ class Operation :
             
     def __negate(stack, current_base) :
         #Negates the top item of the stack
+        if stack.top() != None :
+            #String value of the top of the stack
+            value = stack.pop()
 
-        #String value of the top of the stack
-        value = stack.pop()
+            #Convert from current_base to decimal
+            #Now int value
+            value = Operation.__convertToDecimal(value, current_base)
 
-        #Convert from current_base to decimal
-        #Now int value
-        value = Operation.__convertToDecimal(value, current_base)
+            answer = value * -1
 
-        answer = value * -1
-
-        #Return the answer to the appropriate base
-        #Now string value
-        answer = Operation.__convertFromDecimal(answer, current_base)
-        stack.push(answer)
+            #Return the answer to the appropriate base
+            #Now string value
+            answer = Operation.__convertFromDecimal(answer, current_base)
+            stack.push(answer)
 
     def __convertToDecimal(number, old_base) :
         #Converts the string 'number' in base 'old_base' into an integer in
