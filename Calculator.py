@@ -28,6 +28,10 @@ class Calculator( Tk ) :
 
     # The title of this calculator's window.
     __TITLE = "Calculator"
+    #The title of the Base selection menu
+    __BASE_MENU_TITLE = 'Choose Base'
+    #The title of the Help menu
+    __HELP_MENU_TITLE = 'Help'
 
     # Row number of the first digit row in grid layout of the calculator.
     __DIGIT_ROW = 1
@@ -40,8 +44,12 @@ class Calculator( Tk ) :
     __CLEAR_TITLE = "C"
     # Text on the push button.
     __PUSH_TITLE  = "P"
+    #The operator for Clear Everything button
+    __CLEAR_EVERYTHING_TITLE = 'CE'
     #Sticky for the stack panel
     __STACK_STICKY = 'NS'
+    #String for recognising errors from operations
+    __ERROR_TAG = 'Error'
     
     
     # Main constructor.
@@ -126,13 +134,14 @@ class Calculator( Tk ) :
         #Add the Operand buttons to the panel
         operators = OPERATORS
         for operand in operators:
-            if operand == operators[-1]:
-                #Position of the clear everything operand string
-                self.__addSpecialDigitPanelButton(operand,
-                                            self.__onClearAllButtonClick)
-            else:
-                self.__addSpecialDigitPanelButton(operand,
-                lambda operand=operand:self.__onOperandButtonClick(operand))
+            command = lambda operand=operand:self.__onOperandButtonClick(
+                operand)
+            self.__addSpecialDigitPanelButton(operand,
+            command)
+        #Add the Clear Everything Button
+        title = Calculator.__CLEAR_EVERYTHING_TITLE
+        self.__addSpecialDigitPanelButton(title,
+                                    self.__onClearEverythingButtonClick)
                 
     def __initialiseMenu(self):
         self.__menu = Menu(self)
@@ -141,11 +150,13 @@ class Calculator( Tk ) :
     def __initialiseBaseMenu(self, base) :
         #Create the panel for changing calculator base, put it at the bottom
         baseDropDown = BaseMenu(self, base)
-        self.__menu.add_cascade(label="Choose Base", menu=baseDropDown)
+        label = Calculator.__BASE_MENU_TITLE
+        self.__menu.add_cascade(label=label, menu=baseDropDown)
 
     def __initialiseHelpMenu(self):
         helpMenu = HelpMenu(self)
-        self.__menu.add_cascade(label="Help",menu=helpMenu)
+        label = Calculator.__HELP_MENU_TITLE
+        self.__menu.add_cascade(label=label,menu=helpMenu)
 
     def __initialiseStackPanel(self):
         height = Calculator.__IO_PANEL_HEIGHT
@@ -185,19 +196,23 @@ class Calculator( Tk ) :
         if answer != None :
             #We don't want to display None in the output field
             self.__iopanel.set(answer)
-            if 'Error' in answer :
+            if Calculator._Calculator__ERROR_TAG in answer :
                 #If the last operation gave us an error, we want to remove it from the stack
                 self.__stack.pop()
         self.__stackPanel.update()
 
     def changeBase(self, newBase) :
+        self.__removeAllChildren()
+        self.__stack.clear()
+        self.__initialise(newBase)
+
+    def __removeAllChildren(self) :
+        #Removes all the children from self
         for widget in self.winfo_children() :
             #Destroy all widgets in self, without destroying self
             widget.destroy()
-        self.__stack.clear()
-        self.__initialise(newBase)
     
-    def __onClearAllButtonClick(self):
+    def __onClearEverythingButtonClick(self):
         #clear the stack
         self.__stack.clear()
         self.__iopanel.set("")

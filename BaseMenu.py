@@ -7,6 +7,8 @@ class BaseMenu(Menu) :
     __MIN_BASE = 2
     #Highest base the calculator runs in
     __MAX_BASE = 10
+    #Label for the Base buttons
+    __BASE_LABEL = "Base %i"
 
     def __init__(self, master, currentBase) :
         #Constructor of a menu with radiobuttons to select the new base
@@ -27,9 +29,10 @@ class BaseMenu(Menu) :
         currentBase = self.__base
         minBase = BaseMenu.__MIN_BASE
         maxBase = BaseMenu.__MAX_BASE
+        label = BaseMenu.__BASE_LABEL
         for base in range(minBase, maxBase + 1) :
             state = DISABLED if base == currentBase else ACTIVE
             command = lambda base=base : self.__master.changeBase(base)
-            self.add_command(label="Base %i" %(base),
+            self.add_command(label=label %(base),
                                           command=command, state=state)
         
