@@ -149,7 +149,8 @@ class Calculator( Tk ) :
         self.config(menu=self.__menu)
         
     def __initialiseBaseMenu(self, base) :
-        #Create the panel for changing calculator base, put it at the bottom
+        #Create the dropdown for selecting the base and add it to the
+        #menu
         baseDropDown = BaseMenu(self, base)
         label = Calculator.__BASE_MENU_TITLE
         self.__menu.add_cascade(label=label, menu=baseDropDown)
@@ -170,7 +171,8 @@ class Calculator( Tk ) :
         rows = ceil(self.__positioner.addedWidgets /
                Calculator.__DIGITS_PER_ROW) + 1
         sticky = Calculator.__STACK_STICKY
-        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky=sticky)
+        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1,
+                               rowspan=rows, sticky=sticky)
         self.__stackPanel.update()
     
     # Callback method for push button
@@ -200,7 +202,8 @@ class Calculator( Tk ) :
             #We don't want to display None in the output field
             self.__iopanel.set(answer)
             if Calculator._Calculator__ERROR_TAG in answer :
-                #If the last operation gave us an error, we want to remove it from the stack
+                #If the last operation gave us an error,
+                #we want to remove it from the stack
                 self.__stack.pop()
         self.__stackPanel.update()
 
