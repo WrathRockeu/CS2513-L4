@@ -1,4 +1,5 @@
 from Stack import *
+from ProgramConstants import OPERATORS
 
 class Operation :
     #A class for running operations in the calculator
