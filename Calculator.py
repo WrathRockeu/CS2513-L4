@@ -144,6 +144,7 @@ class Calculator( Tk ) :
                                     self.__onClearEverythingButtonClick)
                 
     def __initialiseMenu(self):
+        #Initialises the menu bar
         self.__menu = Menu(self)
         self.config(menu=self.__menu)
         
@@ -154,11 +155,13 @@ class Calculator( Tk ) :
         self.__menu.add_cascade(label=label, menu=baseDropDown)
 
     def __initialiseHelpMenu(self):
+        #Initialises the panel for giving help options. ie. instructions
         helpMenu = HelpMenu(self)
         label = Calculator.__HELP_MENU_TITLE
         self.__menu.add_cascade(label=label,menu=helpMenu)
 
     def __initialiseStackPanel(self):
+        #Initialises the side panel that displays the current stack.
         height = Calculator.__IO_PANEL_HEIGHT
         width = Calculator.__IO_PANEL_WIDTH
         self.__stackPanel = StackPanel(master=self,height=height,width=width,
@@ -202,6 +205,7 @@ class Calculator( Tk ) :
         self.__stackPanel.update()
 
     def changeBase(self, newBase) :
+        #Changes between the given bases
         self.__removeAllChildren()
         self.__stack.clear()
         self.__initialise(newBase)
