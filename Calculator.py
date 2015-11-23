@@ -75,6 +75,7 @@ class Calculator( Tk ) :
         self.__initialiseBaseMenu(base)
         #Initialise the stack display panel
         self.__initialiseStackPanel()
+        self.__initialiseHelpMenu()
 
     # Initialise the digit panel widget of this @Calculator@.
     #  @base@: the number base of this @Calculator@'s operations.
@@ -148,6 +149,10 @@ class Calculator( Tk ) :
         self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky=sticky)
         self.__stackPanel.update()
 
+    def __initialiseHelpMenu(self):
+        helpMenu = HelpMenu.__init__(self)
+        #Hi
+    
     # Callback method for push button
     def __onPushButtonClick( self ) :
         self.__pushInput()
