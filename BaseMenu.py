@@ -15,10 +15,16 @@ class BaseMenu(Menu) :
         self.config(tearoff=0)
 
         #Save the current base of the calculator
-        self.__currentBase = currentBase
+        self.__base = currentBase
         #Save the master (Calculator instance)
         self.__master = master
-        
+
+        #Create the dropdown menu
+        self.__initialiseDropDown()
+
+    def __initialiseDropDown(self) :
+        #Create the options in the dropdown menu
+        currentBase = self.__base
         minBase = BaseMenu.__MIN_BASE
         maxBase = BaseMenu.__MAX_BASE
         for base in range(minBase, maxBase + 1) :
@@ -26,5 +32,4 @@ class BaseMenu(Menu) :
             command = lambda base=base : self.__master.changeBase(base)
             self.add_command(label="Base %i" %(base),
                                           command=command, state=state)
-        #self.add_cascade(label="Choose Base", menu=basesDropDown)
         
