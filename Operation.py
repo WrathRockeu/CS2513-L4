@@ -16,7 +16,9 @@ class Operation :
     def __init__(self, stack) :
         #Initialise the operation class with access to the stack
         self.__stack = stack
-        Operation.__OPERATION_FUNCTIONS = []
+        Operation.__OPERATION_FUNCTIONS = [Operation.__add,
+        Operation.__subtract, Operation.__multiply, Operation.__divide,
+        Operation.__negate]
 
     def apply(self, operator, current_base) :
         #Applies the 'operator' to the appropriate values on the stack
