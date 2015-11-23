@@ -1,2 +1,15 @@
- 
-This
+General:
+  Digits:
+    Click the digit buttons 
+    to input a number. When 
+    satisfied, click the 'P' 
+    button to push the input
+    onto the stack (which is 
+    displayed on the right). 
+    Repeat to input other 
+    numbers. 
+  Operands:
+    Clicking on one of the operand 
+    buttons will result in applying 
+    that operand to the first one or 
+    two numbers on the stack.
