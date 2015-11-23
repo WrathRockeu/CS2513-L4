@@ -145,6 +145,7 @@ class Calculator( Tk ) :
 
     def __initialiseHelpMenu(self):
         helpMenu = HelpMenu(self)
+        self.__menu.add_cascade(label="Help",menu=helpMenu)
 
     def __initialiseStackPanel(self):
         height = Calculator.__IO_PANEL_HEIGHT
