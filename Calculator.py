@@ -171,7 +171,8 @@ class Calculator( Tk ) :
         rows = ceil(self.__positioner.addedWidgets /
                Calculator.__DIGITS_PER_ROW) + 1
         sticky = Calculator.__STACK_STICKY
-        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1, rowspan=rows, sticky=sticky)
+        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1,
+                               rowspan=rows, sticky=sticky)
         self.__stackPanel.update()
     
     # Callback method for push button
@@ -201,7 +202,8 @@ class Calculator( Tk ) :
             #We don't want to display None in the output field
             self.__iopanel.set(answer)
             if Calculator._Calculator__ERROR_TAG in answer :
-                #If the last operation gave us an error, we want to remove it from the stack
+                #If the last operation gave us an error,
+                #we want to remove it from the stack
                 self.__stack.pop()
         self.__stackPanel.update()
 
