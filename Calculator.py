@@ -8,7 +8,8 @@ from StackPanel import *
 from BaseMenu import *
 from HelpMenu import *
 from math import ceil
-from ProgramConstants import OPERATORS
+from ProgramConstants import OPERATORS, \
+     CLEAR_STACK_DEFAULT, DISPLAY_STACK_DEFAULT
 from OptionMenu import *
 
 # Class for a GUI-based calculator.
@@ -30,9 +31,11 @@ class Calculator( Tk ) :
     # The title of this calculator's window.
     __TITLE = "Calculator"
     #The title of the Base selection menu
-    __BASE_MENU_TITLE = 'Choose Base'
+    __BASE_MENU_TITLE = 'Base'
     #The title of the Help menu
     __HELP_MENU_TITLE = 'Help'
+    #The title of the Options Menu
+    __OPTIONS_MENU_TITLE = "Options"
 
     # Row number of the first digit row in grid layout of the calculator.
     __DIGIT_ROW = 1
@@ -51,9 +54,6 @@ class Calculator( Tk ) :
     __STACK_STICKY = 'NS'
     #String for recognising errors from operations
     __ERROR_TAG = 'Error'
-    __DEFAULT_CS = True
-    __DEFAULT_DS = True
-    
     
     # Main constructor.
     #  @parent@: The master widget of this @Calculator@ or @None@
@@ -77,23 +77,27 @@ class Calculator( Tk ) :
         
     # Utility method for initialising this @Calculator@'s components.
     #  @base@: the number base of this @Calculator@'s operations.
-    def __initialise( self, base,clearOption=__DEFAULT_CS,viewOption=__DEFAULT_DS) :
-        self.clearStack = clearOption
-        self.displayStack = viewOption
+    def __initialise( self, base,clearOption=CLEAR_STACK_DEFAULT,
+                      displayOption=DISPLAY_STACK_DEFAULT) :
+        self.__clearStack = clearOption
+        self.__displayStack = displayOption
         # Initialise the IO panel component.
         self.__initialiseIOPanel( )
         # Initialise the digit panel component.
         self.__initialiseDigitPanel( base=base)
         #Initialise the operand panel component
         self.__initialiseOperandPanel()
+        #Initialise the menu bar
         self.__initialiseMenu()
-        #Initialise the base-change widgets
+        #Add the Base Change dropdown
         self.__initialiseBaseMenu(base)
+        #Add the Options dropdown
         self.__initialiseOptionsMenu()
-        #Initialise the stack display panel
-        if self.displayStack:
-            self.__initialiseStackPanel()
+        #Add the Help dropdown
         self.__initialiseHelpMenu()
+        #Initialise the stack display panel, if the option is selected
+        if self.__displayStack:
+            self.__initialiseStackPanel()
 
     # Initialise the digit panel widget of this @Calculator@.
     #  @base@: the number base of this @Calculator@'s operations.
@@ -164,9 +168,10 @@ class Calculator( Tk ) :
         self.__menu.add_cascade(label=label, menu=baseDropDown)
 
     def __initialiseOptionsMenu(self):
-        self.__optionsDropDown = OptionMenu(self,self.clearStack, self.displayStack)
-        label = "Options"
-        self.__menu.add_cascade(label=label, menu=self.__optionsDropDown)    
+        self.__options = OptionMenu(self,
+                                self.__clearStack, self.__displayStack)
+        label = Calculator.__OPTIONS_MENU_TITLE
+        self.__menu.add_cascade(label=label, menu=self.__options)    
 
     def __initialiseHelpMenu(self):
         #Initialises the panel for giving help options. ie. instructions
@@ -180,6 +185,10 @@ class Calculator( Tk ) :
         width = Calculator.__IO_PANEL_WIDTH
         self.__stackPanel = StackPanel(master=self,height=height,width=width,
                                        stack=self.__stack)
+        self.__showStack()
+
+    def __showStack(self) :
+        #A method for adding the stack panel to the window
         #This gets the last row used in the window
         rows = ceil(self.__positioner.addedWidgets /
                Calculator.__DIGITS_PER_ROW) + 1
@@ -187,6 +196,20 @@ class Calculator( Tk ) :
         self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1,
                                rowspan=rows, sticky=sticky)
         self.__stackPanel.update()
+
+    def __hideStack(self) :
+        #A method for hiding the stack panel
+        self.__stackPanel.grid_forget()
+
+    def onStackDisplayChange(self) :
+        #A method for handling when the user changes the display stack option
+        displayStack = self.__options.displayStack.get()
+        if displayStack :
+            #The stack is hidden, we need to add it back to view
+            self.__showStack()
+        else :
+            #The stack is already visible, hide it
+            self.__hideStack()
     
     # Callback method for push button
     def __onPushButtonClick( self ) :
@@ -214,7 +237,7 @@ class Calculator( Tk ) :
         if answer != None :
             #We don't want to display None in the output field
             self.__iopanel.set(answer)
-            if Calculator._Calculator__ERROR_TAG in answer :
+            if Calculator.__ERROR_TAG in answer :
                 #If the last operation gave us an error,
                 #we want to remove it from the stack
                 self.__stack.pop()
@@ -223,9 +246,11 @@ class Calculator( Tk ) :
     def changeBase(self, newBase) :
         #Changes between the given bases
         self.__removeAllChildren()
-        self.__stack.clear() if self.__optionsDropDown.CS.get() else self.__operation.convertStack(
+        clearStack = self.__options.clearStack.get()
+        displayStack = self.__options.displayStack.get()
+        self.__stack.clear() if clearStack else self.__operation.convertStack(
             self.__stack,newBase,self.__base)
-        self.__initialise(newBase,self.__optionsDropDown.CS.get(),self.__optionsDropDown.DS.get())
+        self.__initialise(newBase,clearStack,displayStack)
 
     def __removeAllChildren(self) :
         #Removes all the children from self
