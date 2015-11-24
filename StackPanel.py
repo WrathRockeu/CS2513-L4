@@ -1,10 +1,14 @@
 from tkinter import *
+from ProgramConstants import IO_PANEL_CHARACTERS
+
 class StackPanel(PanedWindow):
+    #Class handling the display of the stack alongside the calculator
     
     #Title of the stack field
     __TITLE = "Stack"
     #Width of the stack space in characters
-    __STACK_WIDTH = 21 #1 Additional space for the '-' sign
+    #An extra space in case there is a '-' sign
+    __STACK_WIDTH = IO_PANEL_CHARACTERS + 1
     #Anchor for the label
     __ANCHOR = "s"
     #Fill for the label

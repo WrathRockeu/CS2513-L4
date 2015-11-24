@@ -1,4 +1,5 @@
 from tkinter import *
+from ProgramConstants import IO_PANEL_CHARACTERS
 
 # Class for representing a digit button on a calculator.
 class Digit( Button ) :
@@ -23,6 +24,6 @@ class Digit( Button ) :
     # is clicked.
     def __onButtonClick( self ) :
        # Append current button's digit to output field of @self.__appendee@.
-       #IFF there is less than 20 digits in the box already
-       if len(self.__appendee.get()) < 20 :
+       #IFF there is less than the max number of digits in the box already
+       if len(self.__appendee.get()) < IO_PANEL_CHARACTERS :
            self.__appendee.append( str( self.__digit ) )

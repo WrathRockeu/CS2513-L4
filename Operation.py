@@ -13,6 +13,9 @@ class Operation :
     #Length of stack required for Binary Operations
     __BINARY_LENGTH = 2
 
+    #String for a ZeroDivisionError
+    __ZERO_DIVISION_ERROR = 'ZeroDivisionError'
+
     def __init__(self, stack) :
         #Initialise the operation class with access to the stack
         self.__stack = stack
@@ -119,7 +122,8 @@ class Operation :
                 #If we try to divide by 0, we want to display the error in the
                 #output field
                 stack.pop()
-                stack.push('ZeroDivisionError')
+                zeroError = Operation.__ZERO_DIVISION_ERROR
+                stack.push(zeroError)
             
     def __negate(stack, current_base) :
         #Negates the top item of the stack
@@ -170,4 +174,4 @@ class Operation :
         while revStack.length() != 0:
             stack.push(Operation.__convertFromDecimal(
                 Operation.__convertToDecimal(revStack.pop(),oldBase),newBase))
-        
+        del revStack

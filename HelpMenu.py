@@ -1,5 +1,8 @@
 from tkinter import *
+from ProgramConstants import TEAROFF, RESIZABLE_X, RESIZABLE_Y
+
 class HelpMenu(Menu):
+    #Class for creating the Help dropdown menu
 
     #Filename for the instructions file
     __INSTRUCTIONS_FILE = "instr.txt"
@@ -16,8 +19,7 @@ class HelpMenu(Menu):
     
     def __init__(self,master):
         #Create the 'Help' drop down menu.
-        Menu.__init__(self,master=master)
-        self.config(tearoff=0)
+        Menu.__init__(self,master=master,tearoff=TEAROFF)
         self.__addButtons()
 
     def __addButtons(self):
@@ -31,7 +33,7 @@ class HelpMenu(Menu):
         #Display a window of instructions for the program
         #Create the window
         self.__info = Tk()
-        self.__info.resizable(0,0)
+        self.__info.resizable(RESIZABLE_X,RESIZABLE_Y)
         title = HelpMenu.__INSTRUCTIONS_LABEL
         self.__info.title(title)
 
@@ -51,7 +53,7 @@ class HelpMenu(Menu):
         #Display a window about the program
         #Create the window
         self.__about = Tk()
-        self.__about.resizable(0,0)
+        self.__about.resizable(RESIZABLE_X,RESIZABLE_Y)
         title = HelpMenu.__ABOUT_LABEL
         self.__about.title(title)
         
@@ -68,6 +70,6 @@ class HelpMenu(Menu):
         button.pack()
 
     def __getText(self,filename):
-        #Opens the file 'filename' and converts it to a string.
+        #Opens the file 'filename' and returns it as a string.
         filehandle = open(filename,"r")
         return filehandle.read()

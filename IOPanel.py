@@ -1,4 +1,5 @@
 from tkinter import *
+from ProgramConstants import IO_PANEL_CHARACTERS
 
 # Utility class for representing the input and output fields of a calculator.
 class IOPanel( PanedWindow ) :
@@ -12,7 +13,7 @@ class IOPanel( PanedWindow ) :
     __DEFAULT_OUTPUT = ""
 
     # Number of characters we can put in the input/output field
-    __WIDTH = 20
+    __WIDTH = IO_PANEL_CHARACTERS
     # Anchor for the text in the input/output field
     __ANCHOR="e"
 

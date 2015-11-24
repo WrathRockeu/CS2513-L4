@@ -10,7 +10,7 @@ from HelpMenu import *
 from math import ceil
 from ProgramConstants import OPERATORS, \
      CLEAR_STACK_DEFAULT, DISPLAY_STACK_DEFAULT
-from OptionMenu import *
+from OptionsMenu import *
 
 # Class for a GUI-based calculator.
 class Calculator( Tk ) :
@@ -193,7 +193,9 @@ class Calculator( Tk ) :
         rows = ceil(self.__positioner.addedWidgets /
                Calculator.__DIGITS_PER_ROW) + 1
         sticky = Calculator.__STACK_STICKY
-        self.__stackPanel.grid(row=0, column=Calculator.__DIGITS_PER_ROW +1,
+        row = Calculator.__IO_PANEL_ROW
+        col = Calculator.__DIGITS_PER_ROW + 1 #Next to the rest of the stuff
+        self.__stackPanel.grid(row=row, column=col,
                                rowspan=rows, sticky=sticky)
         self.__stackPanel.update()
 

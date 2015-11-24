@@ -1,4 +1,5 @@
 from tkinter import *
+from ProgramConstants import TEAROFF
 
 class BaseMenu(Menu) :
     #Class for a menu that allows for quick changing of bases
@@ -13,8 +14,7 @@ class BaseMenu(Menu) :
     def __init__(self, master, currentBase) :
         #Constructor of a menu with radiobuttons to select the new base
         #'current_base''s button will already be selected
-        Menu.__init__(self, master=master)
-        self.config(tearoff=0)
+        Menu.__init__(self, master=master, tearoff=TEAROFF)
 
         #Save the current base of the calculator
         self.__base = currentBase
