@@ -51,13 +51,14 @@ class Calculator( Tk ) :
     __STACK_STICKY = 'NS'
     #String for recognising errors from operations
     __ERROR_TAG = 'Error'
+    __DEFAULT_CS = True
+    __DEFAULT_DS = True
     
     
     # Main constructor.
     #  @parent@: The master widget of this @Calculator@ or @None@
     #  @base@: The number base for this @Calculator@.
-    def __init__( self, master, title=__TITLE, base=__BASE ) :
-        """Not sure I it can be here but I need it"""
+    def __init__( self, master, title=__TITLE, base=__BASE) :
         self.__base = base
         #INITIALIZE THE STACK
         self.__stack = Stack()
@@ -72,11 +73,13 @@ class Calculator( Tk ) :
         # Save @master@. Not used...
         self.__master = master
         # Finish rest of initialisation.
-        self.__initialise( base=base )
+        self.__initialise( base=base)
         
     # Utility method for initialising this @Calculator@'s components.
     #  @base@: the number base of this @Calculator@'s operations.
-    def __initialise( self, base ) :
+    def __initialise( self, base,clearOption=__DEFAULT_CS,viewOption=__DEFAULT_DS) :
+        self.clearStack = clearOption
+        self.displayStack = viewOption
         # Initialise the IO panel component.
         self.__initialiseIOPanel( )
         # Initialise the digit panel component.
@@ -86,9 +89,10 @@ class Calculator( Tk ) :
         self.__initialiseMenu()
         #Initialise the base-change widgets
         self.__initialiseBaseMenu(base)
-        #Initialise the stack display panel
-        self.__initialiseStackPanel()
         self.__initialiseOptionsMenu()
+        #Initialise the stack display panel
+        if self.displayStack:
+            self.__initialiseStackPanel()
         self.__initialiseHelpMenu()
 
     # Initialise the digit panel widget of this @Calculator@.
@@ -160,7 +164,7 @@ class Calculator( Tk ) :
         self.__menu.add_cascade(label=label, menu=baseDropDown)
 
     def __initialiseOptionsMenu(self):
-        self.__optionsDropDown = OptionMenu(self)
+        self.__optionsDropDown = OptionMenu(self,self.clearStack, self.displayStack)
         label = "Options"
         self.__menu.add_cascade(label=label, menu=self.__optionsDropDown)    
 
@@ -221,7 +225,7 @@ class Calculator( Tk ) :
         self.__removeAllChildren()
         self.__stack.clear() if self.__optionsDropDown.CS.get() else self.__operation.convertStack(
             self.__stack,newBase,self.__base)
-        self.__initialise(newBase)
+        self.__initialise(newBase,self.__optionsDropDown.CS.get(),self.__optionsDropDown.DS.get())
 
     def __removeAllChildren(self) :
         #Removes all the children from self
